@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>课程导航</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .nav-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .nav-button {
+            padding: 14px 18px;
+            border: 1px solid #e9ecef;
+            background-color: #fff;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            flex: 1;
+            max-width: 200px;
+            text-align: center;
+        }
+        .nav-button:hover {
+            background-color: #4a90e2;
+            color: white;
+            box-shadow: 0 4px 8px rgba(74,144,226,0.2);
+            transform: translateY(-2px);
+        }
+        .disabled {
+            background-color: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+        /* 新增提示侧边栏样式 */
+        .tips-sidebar {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            width: 280px;
+            background: #f0f8ff;
+            border: 2px solid #4a90e2;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(74,144,226,0.15);
+            z-index: 1000;
+        }
+        .tips-title {
+            color: #2c3e50;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 8px;
+        }
+        .tips-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .tips-list li {
+            margin: 12px 0;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        .tips-list strong {
+            color: #e53e3e;
+        }
+        </style>
+        
+        <div class="tips-sidebar">
+            <h3 class="tips-title">使用须知 ▼</h3>
+            <ul class="tips-list">
+                <li>1. 答案<strong>仅供参考</strong>，请自行核对</li>
+                <li>2. 点击单词<strong>自动复制</strong>，Ctrl+V粘贴到U校园</li>
+                <li>3. 当前为<strong>第三版</strong>教材内容</li>
+                <li>4. 相比手机端公众号查看<strong>效率提升300%</strong></li>
+                <li>5. 觉得好用请<strong>分享给室友</strong></li>
+                <li>6. <strong style="color:#e53e3e">严禁传播</strong>给非本校学生</li>
+                <li>7. 目前不要传递给非十堰大学生。<strong style="color:#e53e3e">避免被封</strong></li>
+            </ul>
+        </div>
+</head>
+<body>
+    <div class="nav-container">
+        <a href="./读写2/index.html" class="nav-button">读写2</a>
+        <a href="./综合2/index.html" class="nav-button">综合2</a>
+        <a href="javascript:void(0)" class="nav-button disabled">听力2</a>
+    </div>
+</body>
+</html>

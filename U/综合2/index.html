@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英语学习资源</title>
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            transition: opacity 0.3s ease;
+        }
+
+        .modal img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .modal.active {
+            display: block;
+            opacity: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f8f9fa;
+            --text-primary: #2c3e50;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            display: flex;
+            min-height: 100vh;
+            background-color: var(--secondary-color);
+            color: var(--text-primary);
+        }
+
+        .nav {
+            width: 260px;
+            background-color: #fff;
+            padding: 30px;
+            border-right: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: var(--transition);
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .right-fixed-content {
+            position: fixed;
+            right: 30px;
+            top: 30px;
+            width: 400px;
+            z-index: 100;
+        }
+
+        .right-fixed-content > div:first-child {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--border-color);
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .nav-button {
+            display: block;
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: var(--transition);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+            transform-origin: center;
+        }
+
+        .nav-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(74,144,226,0.25);
+            transform: scale(1.02);
+        }
+
+        .nav-button:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .nav-button:hover:after {
+            transform: translateX(100%);
+            transition: var(--transition-slow);
+        }
+
+        .content {
+            flex: 1;
+            padding: 40px 50px;
+            margin-left: 260px;
+            background-color: #fff;
+            max-width: 1200px;
+            margin: 0 auto 0 260px;
+        }
+
+        .unit-content {
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .unit-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--text-primary);
+            margin-bottom: 35px;
+            font-size: 32px;
+            font-weight: 600;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+            letter-spacing: 0.5px;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        h3 {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        h4 {
+            font-size: 20px;
+            color: var(--text-primary);
+            margin: 20px 0 15px;
+            font-weight: 500;
+        }
+
+        .subsection {
+            margin-bottom: 30px;
+        }
+
+        ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+
+        ol li {
+            font-size: 18px;
+            margin: 12px 0;
+            color: var(--text-primary);
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 5px 10px 5px 25px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        ol li:before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: var(--primary-color);
+            font-size: 1.2em;
+        }
+
+        ol li.copied {
+            animation: copyFeedback 0.5s ease-in-out;
+        }
+
+        @keyframes copyFeedback {
+            0% { background-color: var(--primary-color); color: white; }
+            100% { background-color: transparent; }
+        }
+
+        ol li:hover {
+            background-color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .section {
+            background-color: transparent;
+            padding: 30px;
+            border-radius: 14px;
+            margin-bottom: 40px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .section.part1, .section.part4 {
+            border: 2px solid #333;
+            padding: 30px;
+            border-radius: 14px;
+            margin-bottom: 40px;
+            background-color: #fff;
+        }
+
+        .subsection {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .section.part1 {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .section:not(.part1) {
+            border: 2px solid #333;
+            margin-bottom: 30px;
+        }
+
+        .subsection {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px) scale(1.01);
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 图片放大功能
+            const logoImg = document.querySelector('.logo-container img');
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            const modalImg = document.createElement('img');
+            modal.appendChild(modalImg);
+            document.body.appendChild(modal);
+
+            logoImg.addEventListener('click', () => {
+                modalImg.src = logoImg.src;
+                modal.classList.add('active');
+            });
+
+            modal.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            // 复制功能
+            document.querySelectorAll('ol li').forEach(li => {
+                li.addEventListener('click', function() {
+                    const text = this.textContent.trim();
+                    navigator.clipboard.writeText(text).then(() => {
+                        this.classList.add('copied');
+                        setTimeout(() => this.classList.remove('copied'), 500);
+                    });
+                });
+            });
+
+            // 导航按钮切换功能
+            const navButtons = document.querySelectorAll('.nav-button');
+            const unitContents = document.querySelectorAll('.unit-content');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const unitNumber = button.getAttribute('data-unit');
+                    
+                    // Remove active class from all buttons and contents
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    unitContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(`unit${unitNumber}`).classList.add('active');
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <nav class="nav">
+        <div style="flex: 1">
+            <button class="nav-button active" data-unit="1">Unit 1</button>
+            <button class="nav-button" data-unit="2">Unit 2</button>
+            <button class="nav-button" data-unit="3">Unit 3</button>
+            <button class="nav-button" data-unit="4">Unit 4</button>
+        </div>
+    </nav>
+    <div class="right-fixed-content">
+        <div style="background-color: var(--secondary-color); padding: 20px; border-radius: 12px; margin-bottom: 20px; font-size: 16px; line-height: 1.8; color: var(--text-primary); box-shadow: var(--shadow-sm); border: 2px solid var(--border-color);">
+            <p style="margin-bottom: 15px; font-weight: 500;">💡 点击单词即可复制</p>
+            <p style="font-weight: 500;">❤️ 网页制作不易，域名与服务器要很多钱，为了这网站能长久存在，感谢投喂一元也行</p>
+        </div>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Logo">
+        </div>
+    </div>
+
+    <main class="content">
+        <div class="unit-content active" id="unit1">
+            <div class="section part1">
+                <h2>Unit 1 Language in mission</h2>
+                <div class="section">
+                    <h3>Part 1 Vocabulary and structure</h3>
+                    <div class="subsection">
+                        <h4>Word building</h4>
+                        <ol>
+                            <li>marvels</li>
+                            <li>condense</li>
+                            <li>criticize; criticised</li>
+                            <li>adjustment</li>
+                            <li>judgments</li>
+                            <li>negotiations</li>
+                            <li>civilization</li>
+                            <li>civilizations</li>
+                            <li>quotation</li>
+                            <li>precision</li>
+                            <li>adequacy</li>
+                            <li>literacy</li>
+                            <li>exclamation</li>
+                            <li>confused</li>
+                            <li>desperation</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Phrases and expressions</h4>
+                        <ol>
+                            <li>ended up</li>
+                            <li>from scratch</li>
+                            <li>equipped with</li>
+                            <li>ran into</li>
+                            <li>feel obliged to</li>
+                            <li>distinguish between</li>
+                            <li>left behind</li>
+                            <li>focuses on</li>
+                            <li>was absorbed in</li>
+                            <li>in addition</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="section">
+                    <h3>Part 4 Reading comprehension</h3>
+                    <div class="subsection">
+                        <h4>Banked close</h4>
+                        <ol>
+                            <li>frustrated</li>
+                            <li>from</li>
+                            <li>incompetence</li>
+                            <li>absorbed</li>
+                            <li>earned</li>
+                            <li>duration</li>
+                            <li>expanded</li>
+                            <li>condense</li>
+                            <li>precision</li>
+                            <li>proficiency</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Multiple choice questions</h4>
+                        <div class="passage">
+                            <h5>Passage 1</h5>
+                            <ol>
+                                <li>D</li>
+                                <li>A</li>
+                                <li>C</li>
+                                <li>B</li>
+                                <li>D</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 2</h5>
+                            <ol>
+                                <li>D</li>
+                                <li>C</li>
+                                <li>A</li>
+                                <li>D</li>
+                                <li>D</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 3</h5>
+                            <ol>
+                                <li>D</li>
+                                <li>B</li>
+                                <li>B</li>
+                                <li>B</li>
+                                <li>D</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-content" id="unit2">
+            <div class="section part1">
+                <h2>Unit 2 Exploring college majors</h2>
+                <div class="section">
+                    <h3>Part 1 Vocabulary and structure</h3>
+                    <div class="subsection">
+                        <h4>Word building</h4>
+                        <ol>
+                            <li>aspiration</li>
+                            <li>persistence</li>
+                            <li>hesitation</li>
+                            <li>speculation</li>
+                            <li>magnificent</li>
+                            <li>compelling</li>
+                            <li>confirmed</li>
+                            <li>constructive</li>
+                            <li>conscious</li>
+                            <li>liability</li>
+                            <li>liable</li>
+                            <li>logic</li>
+                            <li>prospects</li>
+                            <li>formidable</li>
+                            <li>dominate</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Phrases and expressions</h4>
+                        <ol>
+                            <li>standing up for</li>
+                            <li>in favor of; in favour of</li>
+                            <li>major in</li>
+                            <li>speculated on</li>
+                            <li>in the brains of</li>
+                            <li>in succession</li>
+                            <li>in the form of</li>
+                            <li>has been obsessed with</li>
+                            <li>capture his imagination</li>
+                            <li>are bound to</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="section">
+                    <h3>Part 4 Reading comprehension</h3>
+                    <div class="subsection">
+                        <h4>Banked cloze</h4>
+                        <ol>
+                            <li>major</li>
+                            <li>undertook</li>
+                            <li>equips</li>
+                            <li>prospects</li>
+                            <li>breakthroughs</li>
+                            <li>logically</li>
+                            <li>essential</li>
+                            <li>instant</li>
+                            <li>candidates</li>
+                            <li>barrier</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Multiple choice questions</h4>
+                        <div class="passage">
+                            <h5>Passage 1</h5>
+                            <ol>
+                                <li>B</li>
+                                <li>A</li>
+                                <li>D</li>
+                                <li>B</li>
+                                <li>B</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 2</h5>
+                            <ol>
+                                <li>B</li>
+                                <li>B</li>
+                                <li>A</li>
+                                <li>D</li>
+                                <li>C</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 3</h5>
+                            <ol>
+                                <li>C</li>
+                                <li>C</li>
+                                <li>D</li>
+                                <li>C</li>
+                                <li>D</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-content" id="unit3">
+            <div class="section part1">
+                <h2>Unit 3 The young generation: making a difference</h2>
+                <div class="section">
+                    <h3>Part 1 Vocabulary and structure</h3>
+                    <div class="subsection">
+                        <h4>Word building</h4>
+                        <ol>
+                            <li>accustomed</li>
+                            <li>endurance</li>
+                            <li>convention</li>
+                            <li>exaggerate</li>
+                            <li>motivated</li>
+                            <li>intelligence</li>
+                            <li>recruitment</li>
+                            <li>ruinous</li>
+                            <li>illustrated</li>
+                            <li>evaluation</li>
+                            <li>insufficient</li>
+                            <li>incomplete</li>
+                            <li>collecting</li>
+                            <li>maturity</li>
+                            <li>impulsive</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Phrases and expressions</h4>
+                        <ol>
+                            <li>are gifted with</li>
+                            <li>on a large</li>
+                            <li>strive for</li>
+                            <li>for the sake of</li>
+                            <li>be taken for granted</li>
+                            <li>Based on</li>
+                            <li>ran into</li>
+                            <li>ran out of</li>
+                            <li>be amazed by</li>
+                            <li>is located at</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="section">
+                    <h3>Part 4 Reading comprehension</h3>
+                    <div class="subsection">
+                        <h4>Banked cloze</h4>
+                        <ol>
+                            <li>vigorous</li>
+                            <li>immense</li>
+                            <li>characteristics</li>
+                            <li>persistence</li>
+                            <li>excelled</li>
+                            <li>striving</li>
+                            <li>discrimination</li>
+                            <li>granted</li>
+                            <li>invaluable</li>
+                            <li>multiple</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Multiple choice questions</h4>
+                        <div class="passage">
+                            <h5>Passage 1</h5>
+                            <ol>
+                                <li>A</li>
+                                <li>C</li>
+                                <li>D</li>
+                                <li>C</li>
+                                <li>A</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 2</h5>
+                            <ol>
+                                <li>D</li>
+                                <li>D</li>
+                                <li>B</li>
+                                <li>A</li>
+                                <li>C</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 3</h5>
+                            <ol>
+                                <li>A</li>
+                                <li>D</li>
+                                <li>B</li>
+                                <li>D</li>
+                                <li>B</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="unit-content" id="unit4">
+            <div class="section part1">
+                <h2>Unit 4 Mission and exploration of our time</h2>
+                <div class="section">
+                    <h3>Part 1 Vocabulary and structure</h3>
+                    <div class="subsection">
+                        <h4>Word building</h4>
+                        <ol>
+                            <li>randomness</li>
+                            <li>disciplined</li>
+                            <li>taxation</li>
+                            <li>maximum</li>
+                            <li>survivor</li>
+                            <li>conquer</li>
+                            <li>fulfillment</li>
+                            <li>urgency</li>
+                            <li>completed</li>
+                            <li>sensed</li>
+                            <li>possibly</li>
+                            <li>infinite</li>
+                            <li>allowance</li>
+                            <li>predictable</li>
+                            <li>representing</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Phrases and expressions</h4>
+                        <ol>
+                            <li>pass</li>
+                            <li>down</li>
+                            <li>stay on</li>
+                            <li>paid off</li>
+                            <li>racing against time</li>
+                            <li>take a break from</li>
+                            <li>keep a distance</li>
+                            <li>ran away from</li>
+                            <li>deceive</li>
+                            <li>into</li>
+                            <li>back off</li>
+                            <li>have an effect on</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="section">
+                    <h3>Part 4 Reading comprehension</h3>
+                    <div class="subsection">
+                        <h4>Banked cloze</h4>
+                        <ol>
+                            <li>assistant</li>
+                            <li>contributions</li>
+                            <li>detect</li>
+                            <li>established</li>
+                            <li>grant</li>
+                            <li>provided</li>
+                            <li>founder</li>
+                            <li>advocated</li>
+                            <li>implemented</li>
+                        </ol>
+                    </div>
+                    <div class="subsection">
+                        <h4>Multiple choice questions</h4>
+                        <div class="passage">
+                            <h5>Passage 1</h5>
+                            <ol>
+                                <li>D</li>
+                                <li>C</li>
+                                <li>D</li>
+                                <li>C</li>
+                                <li>D</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 2</h5>
+                            <ol>
+                                <li>A</li>
+                                <li>A</li>
+                                <li>D</li>
+                                <li>A</li>
+                                <li>C</li>
+                            </ol>
+                        </div>
+                        <div class="passage">
+                            <h5>Passage 3</h5>
+                            <ol>
+                                <li>B</li>
+                                <li>B</li>
+                                <li>D</li>
+                                <li>C</li>
+                                <li>C</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
